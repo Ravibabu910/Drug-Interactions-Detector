@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Drug Interactions Detector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      padding: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    label {
+      margin-top: 10px;
+    }
+    input[type=text] {
+      padding: 5px;
+      width: 300px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Drug Interactions Detector</h1>
+  </header>
+  <main>
+    <form id="drug-form">
+      <label for="drug1">Drug 1:</label>
+      <input type="text" id="drug1" name="drug1" required>
+      <label for="drug2">Drug 2:</label>
+      <input type="text" id="drug2" name="drug2" required>
+      <button type="submit">Check for Interactions</button>
+    </form>
+    <div id="result"></div>
+  </main>
+  <script>
+    const form = document.getElementById('drug-form');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const drug1 = document.getElementById('drug1').value;
+      const drug2 = document.getElementById('drug2').value;
+
+      // Call an API or function to check for drug interactions
+      const interaction = checkDrugInteraction(drug1, drug2);
+
+      if (interaction) {
+        resultDiv.textContent = `Warning: ${drug1} and ${drug2} may interact.`;
+      } else {
+        resultDiv.textContent = `No known interactions between ${drug1} and ${drug2}.`;
+      }
+    });
+
+    function checkDrugInteraction(drug1, drug2) {
+      // Implement logic to check for drug interactions
+      // This is a placeholder function
+      return Math.random() < 0.5;
+    }
+  </script>
+</body>
+</html>
