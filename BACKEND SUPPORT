@@ -1,0 +1,50 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+
+// Middleware to parse JSON request bodies
+app.use(express.json());
+
+// In-memory database for drug interactions
+const drugInteractions = [
+  { drug1: 'Warfarin', drug2: 'Aspirin', interaction: 'Increased risk of bleeding' },
+  { drug1: 'Metformin', drug2: 'Cimetidine', interaction: 'Decreased metformin clearance' },
+  { drug1: 'Simvastatin', drug2: 'Itraconazole', interaction: 'Increased risk of myopathy' },
+];
+
+// API endpoint to check for drug interactions
+app.post('/check-interactions', (req, res) => {
+  const { drug1, drug2 } = req.body;
+
+  // Check for interactions in the in-memory database
+  const interaction = drugInteractions.find(
+    (item) => (item.drug1 === drug1 && item.drug2 === drug2) || (item.drug1 === drug2 && item.drug2 === drug1)
+  );
+
+  if (interaction) {
+    res.json({ interaction: true, message: interaction.interaction });
+  } else {
+    res.json({ interaction: false, message: 'No known interactions' });
+  }
+});
+
+// API endpoint to add a new drug interaction
+app.post('/add-interaction', (req, res) => {
+  const { drug1, drug2, interaction } = req.body;
+
+  // Check if the interaction already exists
+  const existingInteraction = drugInteractions.find(
+    (item) => (item.drug1 === drug1 && item.drug2 === drug2) || (item.drug1 === drug2 && item.drug2 === drug1)
+  );
+
+  if (existingInteraction) {
+    res.status(400).json({ error: 'Interaction already exists' });
+  } else {
+    drugInteractions.push({ drug1, drug2, interaction });
+    res.json({ message: 'Interaction added successfully' });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
