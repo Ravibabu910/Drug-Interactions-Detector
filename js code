@@ -1,0 +1,25 @@
+const form = document.getElementById('drug-form');
+const resultDiv = document.getElementById('result');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const drug1 = document.getElementById('drug1').value;
+  const drug2 = document.getElementById('drug2').value;
+
+  // Call an API or function to check for drug interactions
+  const interaction = checkDrugInteraction(drug1, drug2);
+
+  if (interaction) {
+    resultDiv.textContent = `Warning: ${drug1} and ${drug2} may interact.`;
+    resultDiv.classList.add('warning');
+  } else {
+    resultDiv.textContent = `No known interactions between ${drug1} and ${drug2}.`;
+    resultDiv.classList.add('success');
+  }
+});
+
+function checkDrugInteraction(drug1, drug2) {
+  // Placeholder logic to simulate drug interaction check
+  // Replace this with actual logic or API call for drug interaction detection
+  return Math.random() < 0.5; // Simulating a random interaction result
+}
